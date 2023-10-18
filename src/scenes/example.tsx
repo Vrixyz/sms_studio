@@ -3,26 +3,20 @@ import { all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, eas
 import background from '../assets/message_background.png';
 
 export default makeScene2D(function* (view) {
-  const myTxt = createRef<Txt>();
-  const my_count = createSignal(0);
+  const my_messages = createSignal([]);
   view.add(
     <>
       <Img src={background} />
-      <Txt ref={myTxt}>Hello</Txt>
       <Layout spawner={() =>
-        range(my_count() + 1).map((i) => <Txt y={200 + i * 42} width={32} height={32} fill={'white'}>{i}</Txt>)}
+        my_messages().map((elem, i) => <Txt y={100 - (my_messages().length - i) * 42} width={32} height={32} fill={'white'}>{elem}</Txt>)}
       />
 
     </>,
   );
-  yield* all(
-    myTxt().fill('#ffffff', 0),
-    myTxt().position.x(300, 1).to(-300, 1),
-    myTxt().fill('#e6a700', 1).to('#e13238', 1),
-  );
 
+  yield* waitFor(1)
   yield* all(
-    my_count(1, 1), my_count(2, 1).to(3, 1),
+    my_messages(["hello"], 1).to(["hello", "test"], 1)
   );
 
   yield* waitFor(2)
