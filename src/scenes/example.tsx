@@ -1,30 +1,31 @@
 import { makeScene2D, Circle, Layout, Rect, Txt, Img } from '@motion-canvas/2d';
-import { all, createRef } from '@motion-canvas/core';
+import { all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, easeInQuad, range } from '@motion-canvas/core';
 import background from '../assets/message_background.png';
 
 export default makeScene2D(function* (view) {
-  const myCircle = createRef<Circle>();
-
+  const myTxt = createRef<Txt>();
+  const my_count = createSignal(0);
   view.add(
     <>
-      <Layout>
-        <Rect />
-        <Img src={background} />
-        <Txt>Hello</Txt>
-      </Layout>
-      <Circle
-        ref={myCircle}
-        // try changing these properties:
-        x={-300}
-        width={140}
-        height={140}
-        fill="#e13238"
+      <Img src={background} />
+      <Txt ref={myTxt}>Hello</Txt>
+      <Layout spawner={() =>
+        range(my_count()).map((i) => <Txt y={200 + i * 42} width={32} height={32} fill={'white'}>{i}</Txt>)}
       />
+
     </>,
+  );
+  yield* all(
+    myTxt().fill('#ffffff', 0),
+    myTxt().position.x(300, 1).to(-300, 1),
+    myTxt().fill('#e6a700', 1).to('#e13238', 1),
   );
 
   yield* all(
-    myCircle().position.x(300, 1).to(-300, 1),
-    myCircle().fill('#e6a700', 1).to('#e13238', 1),
+    my_count(1, 1).to(2, 1).to(3, 1),
   );
 });
+function count(): number {
+  throw new Error('Function not implemented.');
+}
+
