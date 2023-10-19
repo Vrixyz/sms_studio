@@ -36,7 +36,7 @@ export default makeScene2D(function* (view) {
       <Layout direction={'column'} y={1000} width="100%" justifyContent="start" offset={[0, 1]} gap={70} layout spawner={() =>
         my_messages().map(
           (elem, i) => {
-            return create_element(elem, i, my_messages().length);
+            return create_element(elem, i);
 
             //<Layout alignSelf="end" offset={[1, 0]}><Rect height={100} width={100} fill="#ffff38" />
 
@@ -68,10 +68,17 @@ export default makeScene2D(function* (view) {
   yield* waitFor(0.2);
 });
 
-function create_element(elem: any, i: number, total_messages: number) {
+function create_element(elem: any, i: number) {
   if (elem.from_me) {
-    return <Txt alignSelf="end" offset={[1, 0]} marginRight={50} height={52} fontSize={80} fill={'white'}>{elem.text}</Txt>;
+    return <Rect alignSelf="end" margin={[0, 55, 0, 0]} fill={'#9099ff'}>
+      <Rect alignSelf="center" margin={[100, 75, 100, -10]} />
+      <Txt position={[0, 0]} alignSelf="center" marginRight={75} fontSize={90} fill={'#ffffff'}>{elem.text}</Txt >
+    </Rect>
+
   }
-  return <Txt alignSelf="start" offset={[-1, 0]} marginRight={20} height={52} fontSize={80} fill={'white'}>{elem.text}</Txt>;
+  return <Rect alignSelf="start" margin={[0, 55, 0, 0]} fill={'#aaaaaa'}>
+    <Rect alignSelf="center" margin={[100, 75, 100, -10]} />
+    <Txt position={[0, 0]} alignSelf="center" marginRight={75} fontSize={90} fill={'#ffffff'}>{elem.text}</Txt >
+  </Rect>
 }
 
