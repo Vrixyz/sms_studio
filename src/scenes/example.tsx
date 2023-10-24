@@ -1,51 +1,23 @@
 import { makeScene2D, Circle, Layout, Rect, Txt, Img } from '@motion-canvas/2d';
 import { all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, easeInQuad, range, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
+import { data } from "./scenario_pregnant";
 
 export default makeScene2D(function* (view) {
   const logger = useLogger();
-  const all_data = [{
-    text: "Hello",
-    from_me: true,
-    transition_duration: 1,
-  }, {
-    text: "Yes?",
-    from_me: false,
-    transition_duration: 2,
-  }, {
-    text: "I'm pregnant",
-    from_me: true,
-    transition_duration: 1.5,
-  }, {
-    text: "What?",
-    from_me: false,
-    transition_duration: 1.5,
-  }, {
-    text: "Am I the father?",
-    from_me: false,
-    transition_duration: 2,
-  }, {
-    text: "Didn't you take the pill?",
-    from_me: false,
-    transition_duration: 2.5,
-  }];
+  var all_data = data.all_data;
   const my_messages = createSignal([]);
   view.add(
     <Layout>
       <Img src={background} />
       <Layout layout direction="column" position={[0, 110]} height="100%" width="100%" justifyContent="start" offset={[0, 0]} gap={40}>
         <Circle position={[0, 150]} alignSelf="center" size={[160, 160]} offset={[-1, 1]} fill="#ffffff" />
-        <Txt alignSelf="center" position={[0, 150]} offset={[0, 0]} fill="#ffffff">My Love ❤️</Txt>
+        <Txt alignSelf="center" fill="#ffffff">My Love ❤️</Txt>
       </Layout>
       <Layout direction={'column'} y={1000} width="100%" justifyContent="start" offset={[0, 1]} gap={40} layout spawner={() =>
         my_messages().map(
           (elem, i) => {
             return create_element(elem, i);
-
-            //<Layout alignSelf="end" offset={[1, 0]}><Rect height={100} width={100} fill="#ffff38" />
-
-
-            //</Layout >
           }
         )
       }
@@ -61,7 +33,6 @@ export default makeScene2D(function* (view) {
   logger.debug(states.toString());
 
   var scenario = my_messages([], 0);
-  yield* waitFor(0)
   for (var i = 0; i < states.length; i++) {
     scenario = scenario.to(states[i], all_data[i].transition_duration);
   }
@@ -74,15 +45,12 @@ export default makeScene2D(function* (view) {
 
 function create_element(elem: any, i: number) {
   if (elem.from_me) {
-    return <Rect alignSelf="end" margin={[0, 55, 0, 0]} fill={'#9099ff'} radius={90}>
-      <Rect alignSelf="center" margin={[100, 75, 100, -10]} />
-      <Txt position={[0, 0]} alignSelf="center" marginRight={75} fontSize={80} fill={'#ffffff'}>{elem.text}</Txt >
+    return <Rect alignSelf="end" margin={[0, 55, 0, 255]} padding={[45, 10, 45, 10]} fill={'#9099ff'} radius={90}>
+      <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={80} fill={'#ffffff'}>{elem.text}</Txt >
     </Rect>
-
   }
-  return <Rect alignSelf="start" margin={[0, 55, 0, 0]} fill={'#aaaaaa'} radius={90}>
-    <Rect alignSelf="center" margin={[100, 75, 100, -10]} />
-    <Txt position={[0, 0]} alignSelf="center" marginRight={75} fontSize={80} fill={'#ffffff'}>{elem.text}</Txt >
+  return <Rect alignSelf="start" margin={[0, 255, 0, 50]} padding={[45, 10, 45, 10]} fill={'#aaaaaa'} radius={90}>
+    <Txt textWrap={true} position={[0, 0]} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={80} fill={'#ffffff'}>{elem.text}</Txt >
   </Rect>
 }
 
