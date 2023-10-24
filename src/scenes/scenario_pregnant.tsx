@@ -53,7 +53,7 @@ export class data {
         transition_duration: 3,
     }, {
         text: "He'll get the hint, can you come at my place later?",
-        from_me: false,
+        from_me: true,
         transition_duration: 3,
     }, {
         text: "What do you want?",
@@ -68,11 +68,11 @@ export class data {
         from_me: true,
         transition_duration: 3,
     }, {
-        text: "WHAT? After last time, he'll kill me.",
+        text: "WHAT? After last time, he'll kill me!",
         from_me: false,
         transition_duration: 5,
     }, {
-        text: "It won't happen... I've got another thing to tell you.",
+        text: "Actually, he told me he liked it...",
         from_me: true,
         transition_duration: 3,
     }, {
@@ -84,7 +84,7 @@ export class data {
         from_me: false,
         transition_duration: 3,
     }, {
-        text: "whatever.",
+        text: "I hope it's not your friend you told me about?",
         from_me: true,
         transition_duration: 2,
     }];
