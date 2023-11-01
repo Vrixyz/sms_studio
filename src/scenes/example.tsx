@@ -2,13 +2,17 @@ import { makeScene2D, Circle, Layout, Rect, Txt, Img, Video } from '@motion-canv
 import { Direction, Vector2, all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, easeInQuad, fadeTransition, range, slideTransition, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
 import hypno from '../assets/hypnomp4.mp4';
-import { data } from "../scenarios/scenario_bff";
+import { data } from "../scenarios/prod_1";
+import recipient_image from '../assets/sophie.png';
 
 export default makeScene2D(function* (view) {
   const logger = useLogger();
-  var all_data = data.all_data;
+  const all_data = data.all_data;
+  const recipient = data.recipient;
 
   const videoRef = createRef<Video>();
+  const maskRef = createRef<Circle>();
+  const valueRef = createRef<Img>();
 
   const my_messages = createSignal([]);
   // <Video loop={true} ref={videoRef} src={hypno} height="100%" width="100%" />
@@ -41,9 +45,15 @@ export default makeScene2D(function* (view) {
       </Layout>
       <Layout position={[0, 150]}>
         <Rect layout width="100%" offset={[0, 1]} position={[0, -1000]} height={600} fill="#333333" />
-        <Layout layout direction="column" position={[0, 110]} height="100%" width="100%" justifyContent="start" offset={[0, 0]} gap={40}>
-          <Circle position={[0, 150]} alignSelf="center" size={[160, 160]} offset={[-1, 1]} fill="#ffffff" />
-          <Txt alignSelf="center" fill="#ffffff">❤️</Txt>
+        <Layout cache layout direction="column" position={[0, 110]} height="100%" width="100%" justifyContent="start" offset={[0, 0]} gap={40}>
+          <Rect position={[0, 150]} alignSelf="center" size={[160, 160]} offset={[-1, 1]} cache>
+            <Circle ref={maskRef} size={[160, 160]} offset={[0, 0]} fill="#ffffff" />
+            <Img src={recipient_image}
+              ref={valueRef}
+              size={[160, 160]} />
+          </Rect>
+
+          <Txt alignSelf="center" fill="#ffffff">{recipient ?? "❤️"}</Txt>
         </Layout>
       </Layout>
     </Layout >,
@@ -57,10 +67,11 @@ export default makeScene2D(function* (view) {
   var indicator_me_typing_signal_scenario = indicator_me_typing_signal(0, 0);
   var scenario = my_messages([], 0);
   var current_time = 0;
-  var typing_duration = 2;
+  var typing_duration_default = 3;
   for (var i = 0; i < all_data.length; i++) {
     var messages = all_data.slice(0, i + 1);
     var data_current_message = all_data[i];
+    var typing_duration = data_current_message.typing_duration ?? typing_duration_default;
     var additional_time = data_current_message.time - current_time;
     scenario = scenario.wait(additional_time).to(messages, 0);
     indicator_other_typing_signal_scenario = indicator_other_typing_signal_scenario.wait(additional_time - typing_duration);
@@ -80,17 +91,17 @@ export default makeScene2D(function* (view) {
     scenario,
   );
 
-  yield* waitFor(0.5);
+  yield* waitFor(5);
 });
 
 function create_element(elem: any, i: number) {
   if (elem.from_me) {
     return <Rect alignSelf="end" margin={[0, 55, 0, 255]} padding={[45, 10, 45, 10]} fill={'#3070ff'} radius={90}>
-      <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={80} fill={'#ffffff'}>{elem.text}</Txt >
+      <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={60} fill={'#ffffff'}>{elem.text}</Txt >
     </Rect>
   }
   return <Rect alignSelf="start" margin={[0, 255, 0, 50]} padding={[45, 10, 45, 10]} fill={'#444444'} radius={90}>
-    <Txt textWrap={true} position={[0, 0]} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={80} fill={'#ffffff'}>{elem.text}</Txt >
+    <Txt textWrap={true} position={[0, 0]} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={60} fill={'#ffffff'}>{elem.text}</Txt >
   </Rect>
 }
 

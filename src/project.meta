@@ -3,8 +3,8 @@
   "shared": {
     "background": null,
     "range": [
-      0.33333233333333334,
-      null
+      0,
+      1.0666656666666667
     ],
     "size": {
       "x": 1284,
@@ -17,8 +17,8 @@
     "resolutionScale": 1
   },
   "rendering": {
-    "fps": 30,
-    "resolutionScale": 0.5,
+    "fps": 20,
+    "resolutionScale": 1,
     "colorSpace": "srgb",
     "exporter": {
       "name": "@motion-canvas/ffmpeg",
