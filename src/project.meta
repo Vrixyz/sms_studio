@@ -4,7 +4,7 @@
     "background": null,
     "range": [
       0,
-      1.0666656666666667
+      null
     ],
     "size": {
       "x": 1284,
@@ -18,7 +18,7 @@
   },
   "rendering": {
     "fps": 20,
-    "resolutionScale": 1,
+    "resolutionScale": 0.5,
     "colorSpace": "srgb",
     "exporter": {
       "name": "@motion-canvas/ffmpeg",

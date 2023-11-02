@@ -2,8 +2,8 @@ import { makeScene2D, Circle, Layout, Rect, Txt, Img, Video } from '@motion-canv
 import { Direction, Vector2, all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, easeInQuad, fadeTransition, range, slideTransition, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
 import hypno from '../assets/hypnomp4.mp4';
-import { data } from "../scenarios/prod_1";
-import recipient_image from '../assets/sophie.png';
+import { data } from "../scenarios/prod_2";
+import recipient_image from '../assets/david.png';
 
 export default makeScene2D(function* (view) {
   const logger = useLogger();
@@ -72,11 +72,17 @@ export default makeScene2D(function* (view) {
     var messages = all_data.slice(0, i + 1);
     var data_current_message = all_data[i];
     var typing_duration = data_current_message.typing_duration ?? typing_duration_default;
+    if (data_current_message.is_neutral) {
+      typing_duration = 0;
+    }
     var additional_time = data_current_message.time - current_time;
     scenario = scenario.wait(additional_time).to(messages, 0);
     indicator_other_typing_signal_scenario = indicator_other_typing_signal_scenario.wait(additional_time - typing_duration);
     indicator_me_typing_signal_scenario = indicator_me_typing_signal_scenario.wait(additional_time - typing_duration);
-    if (data_current_message.from_me == false) {
+    if (data_current_message.is_neutral) {
+      // Nothing to do
+    }
+    else if (data_current_message.from_me == false) {
       indicator_other_typing_signal_scenario = indicator_other_typing_signal_scenario.to(1, 0.5).wait(typing_duration - 1).to(0, 0.5);
       indicator_me_typing_signal_scenario = indicator_me_typing_signal_scenario.wait(typing_duration)
     } else {
@@ -95,6 +101,11 @@ export default makeScene2D(function* (view) {
 });
 
 function create_element(elem: any, i: number) {
+  if (elem.is_neutral) {
+    return <Rect alignSelf="center" margin={[0, 155, 0, 255]} padding={[45, 10, 45, 10]} radius={90}>
+      <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={50} fill={'#bbbbbb'}>{elem.text}</Txt >
+    </Rect>
+  }
   if (elem.from_me) {
     return <Rect alignSelf="end" margin={[0, 55, 0, 255]} padding={[45, 10, 45, 10]} fill={'#3070ff'} radius={90}>
       <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={60} fill={'#ffffff'}>{elem.text}</Txt >
