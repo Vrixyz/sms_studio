@@ -2,8 +2,8 @@ import { makeScene2D, Circle, Layout, Rect, Txt, Img, Video } from '@motion-canv
 import { Direction, Vector2, all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, easeInQuad, fadeTransition, range, slideTransition, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
 import hypno from '../assets/hypnomp4.mp4';
-import { data } from "../scenarios/prod_2";
-import recipient_image from '../assets/david.png';
+import { data } from "../scenarios/prod_3";
+import recipient_image from '../assets/enzo.png';
 
 export default makeScene2D(function* (view) {
   const logger = useLogger();
@@ -67,7 +67,9 @@ export default makeScene2D(function* (view) {
   var indicator_me_typing_signal_scenario = indicator_me_typing_signal(0, 0);
   var scenario = my_messages([], 0);
   var current_time = 0;
-  var typing_duration_default = 3;
+  var typing_duration_default = 2.5;
+  var typing_transition_duration = 0.8;
+  var additional_time_default = 4.2;
   for (var i = 0; i < all_data.length; i++) {
     var messages = all_data.slice(0, i + 1);
     var data_current_message = all_data[i];
@@ -75,7 +77,13 @@ export default makeScene2D(function* (view) {
     if (data_current_message.is_neutral) {
       typing_duration = 0;
     }
-    var additional_time = data_current_message.time - current_time;
+    var additional_time = additional_time_default;
+    if (data_current_message.delay != null) {
+      additional_time = data_current_message.delay;
+    }
+    else if (data_current_message.time != null) {
+      additional_time = data_current_message.time - current_time;
+    }
     scenario = scenario.wait(additional_time).to(messages, 0);
     indicator_other_typing_signal_scenario = indicator_other_typing_signal_scenario.wait(additional_time - typing_duration);
     indicator_me_typing_signal_scenario = indicator_me_typing_signal_scenario.wait(additional_time - typing_duration);
@@ -83,11 +91,11 @@ export default makeScene2D(function* (view) {
       // Nothing to do
     }
     else if (data_current_message.from_me == false) {
-      indicator_other_typing_signal_scenario = indicator_other_typing_signal_scenario.to(1, 0.5).wait(typing_duration - 1).to(0, 0.5);
+      indicator_other_typing_signal_scenario = indicator_other_typing_signal_scenario.to(1, typing_transition_duration / 2).wait(typing_duration - typing_transition_duration).to(0, typing_transition_duration / 2);
       indicator_me_typing_signal_scenario = indicator_me_typing_signal_scenario.wait(typing_duration)
     } else {
       indicator_other_typing_signal_scenario = indicator_other_typing_signal_scenario.wait(typing_duration)
-      indicator_me_typing_signal_scenario = indicator_me_typing_signal_scenario.to(1, 0.5).wait(typing_duration - 1).to(0, 0.5);
+      indicator_me_typing_signal_scenario = indicator_me_typing_signal_scenario.to(1, typing_transition_duration / 2).wait(typing_duration - typing_transition_duration).to(0, typing_transition_duration / 2);
     }
     current_time += additional_time;
   }
@@ -107,7 +115,7 @@ function create_element(elem: any, i: number) {
     </Rect>
   }
   if (elem.from_me) {
-    return <Rect alignSelf="end" margin={[0, 55, 0, 255]} padding={[45, 10, 45, 10]} fill={'#3070ff'} radius={90}>
+    return <Rect alignSelf="end" margin={[0, 0, 0, 255]} padding={[45, 10, 45, 10]} fill={'#3070ff'} radius={90}>
       <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={60} fill={'#ffffff'}>{elem.text}</Txt >
     </Rect>
   }
