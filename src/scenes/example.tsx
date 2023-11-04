@@ -2,8 +2,8 @@ import { makeScene2D, Circle, Layout, Rect, Txt, Img, Video } from '@motion-canv
 import { Direction, Vector2, all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, easeInQuad, fadeTransition, range, slideTransition, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
 import hypno from '../assets/hypnomp4.mp4';
-import { data } from "../scenarios/prod_3";
-import recipient_image from '../assets/enzo.png';
+import { data } from "../scenarios/prod_4";
+import recipient_image from '../assets/alex.png';
 
 export default makeScene2D(function* (view) {
   const logger = useLogger();
@@ -111,7 +111,7 @@ export default makeScene2D(function* (view) {
 function create_element(elem: any, i: number) {
   if (elem.is_neutral) {
     return <Rect alignSelf="center" margin={[0, 155, 0, 255]} padding={[45, 10, 45, 10]} radius={90}>
-      <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={50} fill={'#bbbbbb'}>{elem.text}</Txt >
+      <Txt textWrap={true} alignSelf="center" textAlign="center" margin={[0, 50, 0, 50]} fontSize={50} fill={'#bbbbbb'}>{elem.text}</Txt >
     </Rect>
   }
   if (elem.from_me) {
