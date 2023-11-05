@@ -1,21 +1,18 @@
 import { makeScene2D, Circle, Layout, Rect, Txt, Img, Video } from '@motion-canvas/2d';
-import { Direction, Vector2, all, createRef, createSignal, easeInBack, easeInBounce, easeInExpo, easeInQuad, fadeTransition, range, slideTransition, useLogger, waitFor } from '@motion-canvas/core';
+import { all, createRef, createSignal, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
-import hypno from '../assets/hypnomp4.mp4';
-import { data } from "../scenarios/prod_4";
+import { data } from "../scenarios/prod_5";
 import recipient_image from '../assets/alex.png';
+
+import message_image from '../assets/message_prod_5.jpg';
+
 
 export default makeScene2D(function* (view) {
   const logger = useLogger();
   const all_data = data.all_data;
   const recipient = data.recipient;
 
-  const videoRef = createRef<Video>();
-  const maskRef = createRef<Circle>();
-  const valueRef = createRef<Img>();
-
   const my_messages = createSignal([]);
-  // <Video loop={true} ref={videoRef} src={hypno} height="100%" width="100%" />
 
   const indicator_other_typing_signal = createSignal(0);
   const indicator_me_typing_signal = createSignal(0);
@@ -47,10 +44,11 @@ export default makeScene2D(function* (view) {
         <Rect layout width="100%" offset={[0, 1]} position={[0, -1000]} height={600} fill="#333333" />
         <Layout cache layout direction="column" position={[0, 110]} height="100%" width="100%" justifyContent="start" offset={[0, 0]} gap={40}>
           <Rect position={[0, 150]} alignSelf="center" size={[160, 160]} offset={[-1, 1]} cache>
-            <Circle ref={maskRef} size={[160, 160]} offset={[0, 0]} fill="#ffffff" />
-            <Img src={recipient_image}
-              ref={valueRef}
-              size={[160, 160]} />
+            <Rect radius={80} size={[160, 160]} offset={[0, 0]} fill="#ffffff" />
+            {/*<Img
+              src={recipient_image}
+              size={[160, 160]} />*/
+            }
           </Rect>
 
           <Txt alignSelf="center" fill="#ffffff">{recipient ?? "❤️"}</Txt>
@@ -109,6 +107,9 @@ export default makeScene2D(function* (view) {
 });
 
 function create_element(elem: any, i: number) {
+  if (elem.photo != null) {
+    return create_photo(elem);
+  }
   if (elem.is_neutral) {
     return <Rect alignSelf="center" margin={[0, 155, 0, 255]} padding={[45, 10, 45, 10]} radius={90}>
       <Txt textWrap={true} alignSelf="center" textAlign="center" margin={[0, 50, 0, 50]} fontSize={50} fill={'#bbbbbb'}>{elem.text}</Txt >
@@ -121,6 +122,20 @@ function create_element(elem: any, i: number) {
   }
   return <Rect alignSelf="start" margin={[0, 255, 0, 50]} padding={[45, 10, 45, 10]} fill={'#444444'} radius={90}>
     <Txt textWrap={true} position={[0, 0]} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={60} fill={'#ffffff'}>{elem.text}</Txt >
+  </Rect>
+}
+
+function create_photo(elem: any) {
+  if (elem.from_me) {
+    return <Rect layout alignSelf="end" margin={[0, 0, 0, 255]} padding={[45, 10, 45, 10]} fill={'#3070ff'} radius={90}>
+      <Img src={message_image} padding={[50, 50, 50, 255]}
+        size={[360, 360]} />
+    </Rect>
+  }
+  return <Rect alignSelf="start" margin={[0, 255, 0, 50]} fill={'#444444'} radius={90}>
+    <Img src={message_image} margin={[60, 60, 60, 60]} radius={50}
+    //size={[760, 960]}
+    />
   </Rect>
 }
 
