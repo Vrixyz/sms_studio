@@ -1,8 +1,8 @@
 import { makeScene2D, Circle, Layout, Rect, Txt, Img, Video } from '@motion-canvas/2d';
 import { all, createRef, createSignal, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
-import { data } from "../scenarios/prod_5";
-import recipient_image from '../assets/alex.png';
+import { data } from "../scenarios/prod_11";
+import recipient_image from '../assets/Léa.png';
 
 import message_image from '../assets/message_prod_5.jpg';
 
@@ -42,12 +42,18 @@ export default makeScene2D(function* (view) {
       </Layout>
       <Layout position={[0, 150]}>
         <Rect layout width="100%" offset={[0, 1]} position={[0, -1000]} height={600} fill="#333333" />
-        <Layout cache layout direction="column" position={[0, 110]} height="100%" width="100%" justifyContent="start" offset={[0, 0]} gap={40}>
-          <Rect position={[0, 150]} alignSelf="center" size={[160, 160]} offset={[-1, 1]} cache>
-            <Rect radius={80} size={[160, 160]} offset={[0, 0]} fill="#ffffff" />
-            {/*<Img
-              src={recipient_image}
-              size={[160, 160]} />*/
+        <Layout cache layout direction="column" position={[0, 110]} height="100%" width="100%" justifyContent="start" offset={[0, 0]} gap={30}>
+          <Rect alignSelf="center" size={[160, 160]} cache>
+            {/*
+              <Rect radius={80} size={[160, 160]} offset={[0, 0]} fill="#ffffff" />
+              // */
+            }
+            {///*
+              <Img
+                src={recipient_image}
+                size={[160, 160]}
+                radius={[80, 80]} />
+              // */
             }
           </Rect>
 
@@ -65,9 +71,9 @@ export default makeScene2D(function* (view) {
   var indicator_me_typing_signal_scenario = indicator_me_typing_signal(0, 0);
   var scenario = my_messages([], 0);
   var current_time = 0;
-  var typing_duration_default = 2.5;
+  var typing_duration_default = 3;
   var typing_transition_duration = 0.8;
-  var additional_time_default = 4.2;
+  var additional_time_default = data.default_delay;
   for (var i = 0; i < all_data.length; i++) {
     var messages = all_data.slice(0, i + 1);
     var data_current_message = all_data[i];
