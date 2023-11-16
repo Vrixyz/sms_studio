@@ -1,8 +1,8 @@
 import { makeScene2D, Circle, Layout, Rect, Txt, Img, Video } from '@motion-canvas/2d';
 import { all, createRef, createSignal, useLogger, waitFor } from '@motion-canvas/core';
 import background from '../assets/message_background_less.png';
-import { data } from "../scenarios/prod_11";
-import recipient_image from '../assets/Léa.png';
+import { data } from "../scenarios/prod_13";
+import recipient_image from '../assets/Mari.png';
 
 import message_image from '../assets/message_prod_5.jpg';
 
@@ -117,7 +117,7 @@ function create_element(elem: any, i: number) {
     return create_photo(elem);
   }
   if (elem.is_neutral) {
-    return <Rect alignSelf="center" margin={[0, 155, 0, 255]} padding={[45, 10, 45, 10]} radius={90}>
+    return <Rect alignSelf="center" margin={[0, 200, 0, 255]} padding={[45, 10, 45, 10]} radius={90}>
       <Txt textWrap={true} alignSelf="center" textAlign="center" margin={[0, 50, 0, 50]} fontSize={50} fill={'#bbbbbb'}>{elem.text}</Txt >
     </Rect>
   }
@@ -126,7 +126,7 @@ function create_element(elem: any, i: number) {
       <Txt textWrap={true} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={60} fill={'#ffffff'}>{elem.text}</Txt >
     </Rect>
   }
-  return <Rect alignSelf="start" margin={[0, 255, 0, 50]} padding={[45, 10, 45, 10]} fill={'#444444'} radius={90}>
+  return <Rect alignSelf="start" margin={[0, 200, 0, 50]} padding={[45, 10, 45, 10]} fill={'#444444'} radius={90}>
     <Txt textWrap={true} position={[0, 0]} alignSelf="center" margin={[0, 50, 0, 50]} fontSize={60} fill={'#ffffff'}>{elem.text}</Txt >
   </Rect>
 }
