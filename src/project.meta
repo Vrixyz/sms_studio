@@ -13,7 +13,7 @@
     "audioOffset": 0
   },
   "preview": {
-    "fps": 30,
+    "fps": 20,
     "resolutionScale": 1
   },
   "rendering": {
@@ -24,7 +24,7 @@
       "name": "@motion-canvas/ffmpeg",
       "options": {
         "fastStart": true,
-        "includeAudio": false
+        "includeAudio": true
       }
     }
   }

@@ -1,0 +1,12 @@
+newline = { "\n" | "\r\n" | "\r" }
+
+message_character = { ASCII_ALPHANUMERIC | LATIN | PUNCTUATION | " " | EMOJI  }
+
+message = { (message_character)+ }
+
+source    = { "A" | "B" }
+separator = { ":" }
+
+entry = { source ~ separator ~ " "* ~ "\n" ~ message }
+
+story = { (entry ~ ("\n")*)+ ~ EOI}
