@@ -1,12 +1,12 @@
-newline = { "\n" | "\r\n" | "\r" }
+newline = _{ "\n" | "\r\n" | "\r" }
 
-message_character = { ASCII_ALPHANUMERIC | LATIN | PUNCTUATION | " " | EMOJI  }
+message_character = _{ ASCII_ALPHANUMERIC | LATIN | PUNCTUATION | " " | EMOJI  }
 
 message = { (message_character)+ }
 
 source    = { "A" | "B" }
-separator = { ":" }
+separator = _{ ":" }
 
-entry = { source ~ separator ~ " "* ~ "\n" ~ message }
+entry = { source ~ separator ~ (" " | newline)* ~ message }
 
 story = { (entry ~ ("\n")*)+ ~ EOI}

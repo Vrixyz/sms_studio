@@ -1,8 +1,6 @@
-A:
-Tu rentres pas ce soir ? 😔
+A:Tu rentres pas ce soir ? 😔
 
-B:
-Je ne sais pas encore … 
+B:Je ne sais pas encore … 
 
 A:
 Tu fais encore la tête pour ce qu’il s’est passé hier soir ? 🫤
@@ -10,8 +8,7 @@ Tu fais encore la tête pour ce qu’il s’est passé hier soir ? 🫤
 B: 
 Je « fais pas la tête » mais je ne te fais plus confiance  
 
-A: 
-Oui j’ai un peu dépassé les bornes, je m’excuse. 
+A: Oui j’ai un peu dépassé les bornes, je m’excuse. 
 
 B: 
 Un peu ? 😦
